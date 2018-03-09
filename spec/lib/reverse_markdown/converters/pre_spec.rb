@@ -21,6 +21,12 @@ describe ReverseMarkdown::Converters::Pre do
       node = node_for("<pre><code>foobar</code></pre>")
       expect(converter.convert(node)).to eq "\n\n    foobar\n\n"
     end
+
+    it "handles text correctly" do
+      node = node_for('<pre >(msg) => console.log(msg)</pre>')
+
+      expect(converter.convert(node)).to eq("\n\n    (msg) => console.log(msg)\n\n")
+    end
   end
 
   context 'for github_flavored markdown' do
@@ -39,6 +45,12 @@ describe ReverseMarkdown::Converters::Pre do
     it 'handles code tags correctly' do
       node = node_for("<pre><code>foobar</code></pre>")
       expect(converter.convert(node)).to include "```\nfoobar\n```"
+    end
+
+    it "handles text correctly" do
+      node = node_for('<pre >(msg) => console.log(msg)</pre>')
+
+      expect(converter.convert(node)).to eq("\n```\n(msg) => console.log(msg)\n```\n")
     end
 
     context 'syntax highlighting' do

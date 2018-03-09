@@ -19,6 +19,8 @@ module ReverseMarkdown
           node.text
         when 'br'
           "\n"
+        when 'text'
+          node.text
         else
           super
         end
