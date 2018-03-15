@@ -22,6 +22,11 @@ describe ReverseMarkdown::Converters::Pre do
       expect(converter.convert(node)).to eq "\n\n    foobar\n\n"
     end
 
+    it 'ignore strong and em tag' do
+      node = node_for("<pre><strong>foo</strong><em>bar</em></pre>")
+      expect(converter.convert(node)).to eq "\n\n    foobar\n\n"
+    end
+
     it "handles text correctly" do
       node = node_for('<pre >(msg) => console.log(msg)</pre>')
 
@@ -45,6 +50,11 @@ describe ReverseMarkdown::Converters::Pre do
     it 'handles code tags correctly' do
       node = node_for("<pre><code>foobar</code></pre>")
       expect(converter.convert(node)).to include "```\nfoobar\n```"
+    end
+
+    it 'ignore strong and em tag' do
+      node = node_for("<pre><strong>foo</strong><em>bar</em></pre>")
+      expect(converter.convert(node)).to eq("\n```\nfoobar\n```\n")
     end
 
     it "handles text correctly" do
